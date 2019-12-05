@@ -35,11 +35,17 @@ SELECT COUNT(RoomNo)
 FROM Hotel, Booking 
 WHERE Booking.hotelID=hotelID AND (Room.hotelID, Room.BID) IN (SELECT HotelID, roomNo FROM Booking)
 
-
 /* number 10 */
 SELECT roomNo
 FROM Booking
 WHERE Booking.hotelID=hotelID AND bookingDate BETWEEN date AND DATE_ADD(date, INTERVAL 1 WEEK)
+
+/*11*/ 
+/*Get top k rooms with highest price for a date range*/
+SELECT TOP K
+FROM Booking B, Room R
+WHERE B.bookingDate BETWEEN #FirstDate# AND #SecondDate# AND B.roomNo = R.roomNo
+Order By B.price DESC 
 
 /* num 12 */
 /* Given a customer Name, List Top K highest booking price for a customer */
