@@ -40,3 +40,20 @@ WHERE Booking.hotelID=hotelID AND (Room.hotelID, Room.BID) IN (SELECT HotelID, r
 SELECT roomNo
 FROM Booking
 WHERE Booking.hotelID=hotelID AND bookingDate BETWEEN date AND DATE_ADD(date, INTERVAL 1 WEEK)
+
+/* num 12 */
+/* Given a customer Name, List Top K highest booking price for a customer */
+SELECT TOP k
+FROM (SELECT price FROM Booking WHERE Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName=firstName AND Customer.lName=lastName) ORDER BY price DESC);
+
+/* num 13 */
+/* Given a hotelID, customer Name and date range get the total cost incurred by the customer */
+SELECT SUM(price)
+FROM Booking
+WHERE Booking.hotelID=hotelID AND Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName=firstName AND Customer.lName=lastName) AND Booking.date BETWEEN date1 AND date2;
+
+/* num 14 */
+/* Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo */
+SELECT repairType, hotelID, roomNo
+FROM Repair
+WHERE Repair.mCompany=(SELECT cmpID FROM MaintenanceCompany WHERE MaintenanceCompany.name=mName);
