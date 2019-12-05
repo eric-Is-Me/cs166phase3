@@ -8,4 +8,6 @@ INSERT INTO MaintenanceCompany
 VALUES (cmpID, name, address , isCertified);
 
 INSERT INTO Repair 
-VALUES (rID, hotelID, roomNo, mCompany, repairDate, description, repairType
+VALUES (rID, hotelID, roomNo, mCompany, repairDate, description, repairType);
+
+
