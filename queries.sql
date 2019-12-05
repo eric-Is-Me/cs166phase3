@@ -24,3 +24,13 @@ VALUES (hotelID, roomNo, repairDate);
 
 INSERT INTO Request
 VALUES (ManagerID, repairID, repairDate);
+
+/* number 8 */
+SELECT COUNT(hotelID)
+FROM Room, Booking
+WHERE Room.hotelID=hotelID AND (Room.hotelID, Room.roomNo) NOT IN (SELECT hotelID, roomNo FROM Booking)
+
+/* number 10 */
+SELECT roomNo
+FROM Booking
+WHERE Booking.hotelID=hotelID AND bookingDate BETWEEN date AND DATE_ADD(date, INTERVAL 1 WEEK)
