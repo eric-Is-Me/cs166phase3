@@ -30,6 +30,12 @@ SELECT COUNT(hotelID)
 FROM Room, Booking
 WHERE Room.hotelID=hotelID AND (Room.hotelID, Room.roomNo) NOT IN (SELECT hotelID, roomNo FROM Booking)
 
+/* number 9 */
+SELECT COUNT(RoomNo)
+FROM Hotel, Booking 
+WHERE Booking.hotelID=hotelID AND (Room.hotelID, Room.BID) IN (SELECT HotelID, roomNo FROM Booking)
+
+
 /* number 10 */
 SELECT roomNo
 FROM Booking
