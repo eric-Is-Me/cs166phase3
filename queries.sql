@@ -38,7 +38,8 @@ WHERE B.hotelID = R.hotelID AND R.roomNo IN (SELECT R.roomNo FROM Booking B WHER
 /* number 10 */
 SELECT roomNo     
 FROM Booking
-WHERE Booking.hotelID='1' AND bookingDate BETWEEN '6/20/2011'::date AND '6/20/2011'::date + interval '10 year';
+WHERE Booking.hotelID='1' AND bookingDate BETWEEN '6/20/2010'::date AND '6/20/2010'::date + interval '1 week';
+
 
 /*11*/ 
 /*Get top k rooms with highest price for a date range*/
