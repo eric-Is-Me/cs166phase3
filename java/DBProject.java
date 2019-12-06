@@ -389,12 +389,7 @@ public class DBProject {
    }//end addCustomer
 
    public static void addRoom(DBProject esql){
-	  // Given room details add the room in the DB
-      // Your code goes here.
-      // ...
-      // ...
-	   
-	   
+   
     while(true)
     {
       System.out.print("Please input HotelID: ")
@@ -441,6 +436,15 @@ public class DBProject {
         System.out.println("Invalid input! Your exception is: " + e.getMessage());
       }
     }
+     try
+      {
+        query = "INSERT INTO Room VALUES (" + hotelID + "," + roomNo + "," + roomType  + ");";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end addRoom
 
    public static void addMaintenanceCompany(DBProject esql){
