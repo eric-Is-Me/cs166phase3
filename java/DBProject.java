@@ -919,6 +919,32 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+	int k; 
+
+       while (true)
+      {
+        System.out.print("How many top maintenance company name repairs do you want to see? : ");
+        try 
+        {
+          k = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        query = "SELECT Name FROM Maintenance M, Repair R WHERE M.cmpID = R.mCompany ORDER BY COUNT(rID) DESC LIMIT"+ k;
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end topKMaintenanceCompany
    
    public static void numberOfRepairsForEachRoomPerYear(DBProject esql){
