@@ -454,10 +454,124 @@ public class DBProject {
    }//end addMaintenanceCompany
 
    public static void addRepair(DBProject esql){
-	  // Given repair details add repair in the DB
-      // Your code goes here.
-      // ...
-      // ...
+	while (true)
+      {
+        System.out.print("Please input Repair ID: ");
+        try 
+        {
+          rID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+        while (true)
+      {
+        System.out.print("Please input Hotel ID: ");
+        try 
+        {
+          hotelID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+        while (true)
+      {
+        System.out.print("Please input Room Number: ");
+        try 
+        {
+          roomNo = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+        while (true)
+      {
+        System.out.print("Please input Maintenance Company ID: ");
+        try 
+        {
+          mCompany = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+        while (true)
+      {
+        System.out.print("Please input Repair Date: ");
+        try 
+        {
+          repairDate = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+        while (true)
+      {
+        System.out.print("Please input the description: ");
+        try 
+        {
+          description = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+     while (true)
+      {
+        System.out.print("Please input the repair type: ");
+        try 
+        {
+          repairType = in.readLine();
+          if (repairType.length() <= 0 || repairType.length() > 10) 
+          {
+            throw new RuntimeException("Your input is invalid! Last Name cannot be empty, and cannot exceed 30 characters");
+          }
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        query = "INSERT INTO Repair VALUES (" + rID + "," + hotelID + "," + roomNo + "," + mCompany + "," + repairDate + "," + description + "," + repairType + ");";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end addRepair
 
    public static void bookRoom(DBProject esql){
