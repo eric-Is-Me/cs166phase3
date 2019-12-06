@@ -632,6 +632,73 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+	    int staffID;
+    int hotelID;
+    int roomNo; 
+
+
+      try
+      {
+        String query = "SELECT MAX(asgID) FROM Assigned";
+        Statement asgID_Statement = esql._connection.createStatement();
+        ResultSet asgID_ResultSet = asgID_Statement.execute(query);
+        asgID_ResultSet();
+        int asgID_Increment = asgID_ResultSet.getInt(1) + 1; 
+      }
+
+      while (true)
+      {
+        System.out.print("Enter the Staff SSN: ");
+        try 
+        {
+          staffID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter the Hotel ID: ");
+        try 
+        {
+          hotelID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter the Room Number: ");
+        try 
+        {
+          roomNo = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      try
+      {
+        query = "INSERT INTO Assigned VALUES (" + asgID + ", '" staffID + "', '" + hotelID + "', '" + roomNo + "');";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end assignHouseCleaningToRoom
    
    public static void repairRequest(DBProject esql){
