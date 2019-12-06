@@ -42,10 +42,10 @@ WHERE Booking.hotelID=hotelID AND bookingDate BETWEEN date AND DATE_ADD(date, IN
 
 /*11*/ 
 /*Get top k rooms with highest price for a date range*/
-SELECT TOP K
+SELECT price
 FROM Booking B, Room R
 WHERE R.roomNo = B.roomNo AND B.bookingDate BETWEEN 'FirstDate' AND 'SecondDate'
-Order By B.price DESC 
+Order By B.price DESC LIMIT k; 
 
 /* num 12 */
 /* Given a customer Name, List Top K highest booking price for a customer */
