@@ -393,6 +393,54 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+	   
+	   
+    while(true)
+    {
+      System.out.print("Please input HotelID: ")
+      try
+      {
+        hotelID = Integer.parseInt(in.readLine());
+        break;
+      }
+      catch (Exception e)
+      {
+        System.out.println("Invalid input! Your exception is: " + e.getMessage());
+        continue; 
+      }
+    }
+
+    while(true)
+    {
+      System.out.printIn("Please input RoomNo: ")
+      try
+      {
+        roomNo = Integer.parseInt(in.readLine());
+        break;
+      }
+      catch (Exception e)
+      {
+        System.out.println("Invalid input! Your exception is: " + e.getMessage());
+        continue; 
+      }
+    }
+
+    while(true)
+    {
+      System.out.println("Please input roomType: ")
+      try
+      {
+        roomType = in.readLine();
+        if (roomType.length() <= 0 || firstName.length() > 10)
+        {
+          throw new RuntimeException("Your input is invalid!")
+        }
+      }
+      catch (Exception e)
+      {
+        System.out.println("Invalid input! Your exception is: " + e.getMessage());
+      }
+    }
    }//end addRoom
 
    public static void addMaintenanceCompany(DBProject esql){
