@@ -712,7 +712,7 @@ public class DBProject {
 
       try
       {
-        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "::date ' BETWEEN '" + bookingDate + "' AND DATE_ADD(" + bookingDate + ", INTERVAL 1 WEEK);;
+        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "::date ' BETWEEN '" + bookingDate + "' AND DATE_ADD(" + bookingDate + ", INTERVAL 1 WEEK)");";
         esql.executeQuery(query);
       }
       catch (Exception e)
