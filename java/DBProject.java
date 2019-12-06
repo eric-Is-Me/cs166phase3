@@ -535,6 +535,70 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+      int repairDate;
+      int managerID; 
+      int repairID; 
+      string query;  
+
+      while (true)
+      {
+        System.out.print("Please input RepairID: ");
+        try 
+        {
+          repairID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Manager ID: ");
+        try 
+        {
+          managerID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Repair Date: ");
+        try 
+        {
+          repairDate = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        String query_reqID = "SELECT MAX(reqID) FROM Request";
+        Statement reqID_Statement = esql._connection.createStatement();
+        ResultSet reqID_ResultSet = reqID_Statement.execute(query_reqID);
+        reqID_ResultSet();
+        int reqID_Increment = reqID_ResultSet.getInt(1) + 1;
+        query = "INSERT INTO Request VALUES (" reqID_Increment + managerID + ", '" + repairID + "', '" + repairDate + "');";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end addRepair
 
    public static void bookRoom(DBProject esql){
