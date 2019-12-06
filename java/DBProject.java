@@ -712,13 +712,13 @@ public class DBProject {
 
       try
       {
-        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "::date ' BETWEEN '" + bookingDate + "' AND DATE_ADD(" + bookingDate + ", INTERVAL 1 WEEK)");";
+        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "'::date  BETWEEN '" + bookingDate + "'::date AND '" + bookingDate + "'::date + interval '1 week'";
         esql.executeQuery(query);
       }
       catch (Exception e)
       {
         System.err.println("Query failed: " + e.getMessage());
-      } 
+      }
    }//end listHotelRoomBookingsForAWeek
    
    public static void topKHighestRoomPriceForADateRange(DBProject esql){
@@ -726,13 +726,112 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
-            int hotelID;
-      String bookingDate
+   }//end topKHighestRoomPriceForADateRange
+   
+   public static void topKHighestPriceBookingsForACustomer(DBProject esql){
+    // Given a customer Name, List Top K highest booking price for a customer 
+      String firstName;
+      String lastName;
+      int k;
 
       while (true)
       {
-        System.out.print("Please input Hotel ID: ");
+        System.out.print("Please input Customer First Name: ");
         try 
+        {
+          firstName = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Customer Last Name: ");
+        try 
+        {
+          lastName = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("How many bookings do you want to see? ");
+        try
+        {
+          k = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        query = "SELECT price FROM (SELECT price FROM Booking WHERE Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName +"') ORDER BY price DESC) LIMIT "+ k;
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
+   }//end topKHighestPriceBookingsForACustomer
+   
+   public static void totalCostForCustomer(DBProject esql){
+    // Given a hotelID, customer Name and date range get the total cost incurred by the customer
+	  int hotelID;
+	  String firstName;
+	  String lastName;
+	  String date1;
+	  String date2;
+
+      while (true)
+      {
+        System.out.print("Please input Customer First Name: ");
+        try 
+        {
+          firstName = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Customer Last Name: ");
+        try 
+        {
+          lastName = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("Enter Hotel ID: ");
+        try
         {
           hotelID = Integer.parseInt(in.readLine());
           break;
@@ -746,10 +845,10 @@ public class DBProject {
 
       while (true)
       {
-        System.out.print("Enter the first date: ");
-        try
+        System.out.print("Enter Starting Date: ");
+        try 
         {
-          bookingDate = in.readLine();
+          date1 = in.readLine();
           break;
         }
         catch (Exception e)
@@ -758,14 +857,13 @@ public class DBProject {
           continue;
         }
       }
-
-
+      
       while (true)
       {
-        System.out.print("Enter the second date: ");
-        try
+        System.out.print("Enter Ending Date: ");
+        try 
         {
-          bookingDate = in.readLine();
+          date2 = in.readLine();
           break;
         }
         catch (Exception e)
@@ -774,38 +872,46 @@ public class DBProject {
           continue;
         }
       }
-
+      
       try
       {
-        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "::date ' BETWEEN '" + bookingDate  + "Order By B.price DESC LIMIT K" "');";
-        esql.executeQuery(query);
+        query = "SELECT SUM(price) FROM Booking WHERE Booking.hotelID='" + hotelID + "' AND Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName + "') AND Booking.date BETWEEN '" + date1 + "'::date AND '" + date2 + "'::date";
         esql.executeQuery(query);
       }
       catch (Exception e)
       {
         System.err.println("Query failed: " + e.getMessage());
-      } 
-   }//end topKHighestRoomPriceForADateRange
-   
-   public static void topKHighestPriceBookingsForACustomer(DBProject esql){
-    // Given a customer Name, List Top K highest booking price for a customer 
-      // Your code goes here.
-      // ...
-      // ...
-   }//end topKHighestPriceBookingsForACustomer
-   
-   public static void totalCostForCustomer(DBProject esql){
-    // Given a hotelID, customer Name and date range get the total cost incurred by the customer
-      // Your code goes here.
-      // ...
-      // ...
+      }
    }//end totalCostForCustomer
    
    public static void listRepairsMade(DBProject esql){
     // Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo
-      // Your code goes here.
-      // ...
-      // ...
+	  String mName;
+
+      while (true)
+      {
+        System.out.print("Please input Maintenance Company Name: ");
+        try 
+        {
+          mName = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      try
+      {
+        query = "SELECT repairType, hotelID, roomNo FROM Repair WHERE Repair.mCompany=(SELECT cmpID FROM MaintenanceCompany WHERE MaintenanceCompany.name='" + mName + "')";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end listRepairsMade
    
    public static void topKMaintenanceCompany(DBProject esql){
@@ -817,9 +923,48 @@ public class DBProject {
    
    public static void numberOfRepairsForEachRoomPerYear(DBProject esql){
     // Given a hotelID, roomNo, get the count of repairs per year
-      // Your code goes here.
-      // ...
-      // ...
+	  int hotelID;
+	  int roomNo;
+
+      while (true)
+      {
+        System.out.print("Please input Hotel ID: ");
+        try 
+        {
+          hotelID = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("Please input Room Number: ");
+        try 
+        {
+          roomNo = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      try
+      {
+        query = "SELECT DATE_PART('year', repairDate) AS \"Year\", COUNT(*) AS \"Number of Repairs\" FROM Repair WHERE Repair.hotelID='" + hotelID + "' AND Repair.roomNo='" + roomNo + "' GROUP BY DATE_PART('year', repairDate)";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end listRepairsMade
 
 }//end DBProject
