@@ -538,6 +538,137 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+    int rID;
+    int hotelID; 
+    int roomNo;
+    int mCompany; 
+    String repairDate; 
+    String description;
+    String repairType; 
+    String query
+
+      while (true)
+      {
+        System.out.print("Please input Repair ID: ");
+        try 
+        {
+          rID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Hotel ID: ");
+        try 
+        {
+          hotelID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Room number: ");
+        try 
+        {
+          roomNo = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Company ID: ");
+        try 
+        {
+          mCompany = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Repair Date: ");
+        try 
+        {
+          repairDate = in.readLine();
+          if (repairDate.length() <= 0 || repairDate.length() > 8) 
+          {
+            throw new RuntimeException("Your input is invalid! Name cannot be empty, and cannot exceed 8 characters");
+          }
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter Description: ");
+        try
+        {
+          description = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter Repair Type: ");
+        try 
+        {
+          repairType = in.readLine();
+          if (repairDate.length() <= 0 || repairDate.length() > 10) 
+          {
+            throw new RuntimeException("Your input is invalid! Name cannot be empty, and cannot exceed 8 characters");
+          }
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        query = "INSERT INTO Customer VALUES (" + rID + "," + hotelID + " , " + roomNo + " , '" + mCompany + "', '" + repairDate + "' , '" + description + "'::date, '" + repairType + "')";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end addRepair
 
    public static void bookRoom(DBProject esql){
