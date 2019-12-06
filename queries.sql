@@ -63,3 +63,10 @@ WHERE Booking.hotelID=hotelID AND Booking.customer=(SELECT customerID FROM Custo
 SELECT repairType, hotelID, roomNo
 FROM Repair
 WHERE Repair.mCompany=(SELECT cmpID FROM MaintenanceCompany WHERE MaintenanceCompany.name=mName);
+
+/* num 15 */
+/*Get top k maintenance companies based on repair count */ 
+SELECT Name
+FROM Maintenance M, Repair R 
+WHERE M.cmpID = R.mCompany
+ORDER BY COUNT(rID) DESC LIMIT K
