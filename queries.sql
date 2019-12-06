@@ -26,9 +26,9 @@ INSERT INTO Request
 VALUES (ManagerID, repairID, repairDate);
 
 /* number 8 */
-SELECT COUNT(hotelID)
+SELECT COUNT(*)
 FROM Room, Booking
-WHERE Room.hotelID=hotelID AND (Room.hotelID, Room.roomNo) NOT IN (SELECT hotelID, roomNo FROM Booking)
+WHERE Room.hotelID='1' AND Booking.hotelID='1' AND Room.roomNo NOT IN (SELECT Room.roomNo FROM Booking WHERE Room.roomNo=Booking.roomNo);
 
 /* number 9 */
 SELECT COUNT(RoomNo)
