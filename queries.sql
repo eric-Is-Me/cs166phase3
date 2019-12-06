@@ -70,3 +70,10 @@ SELECT Name
 FROM Maintenance M, Repair R 
 WHERE M.cmpID = R.mCompany
 ORDER BY COUNT(rID) DESC LIMIT K
+
+/* num 16 */
+/* Given a hotelID, roomNo, get the count of repairs per year */
+SELECT DATE_PART('year', repairDate) AS "Year", COUNT(*) AS "Number of Repairs"
+FROM Repair
+WHERE Repair.hotelID=hotelID AND Repair.roomNo=roomNo
+GROUP BY DATE_PART('year', repairDate);
