@@ -726,6 +726,66 @@ public class DBProject {
       // Your code goes here.
       // ...
       // ...
+	      String date1;
+      String date2;
+      int k; 
+
+       while (true)
+      {
+        System.out.print("Please input K: ");
+        try 
+        {
+          k = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter Starting Date: ");
+        try 
+        {
+          date1 = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("Enter Ending Date: ");
+        try 
+        {
+          date2 = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+
+
+       try
+      {
+        query = "SELECT price FROM Booking B, Room R WHERE R.roomNo = B.roomNo AND '" + date1 + "'::date AND '" + date2 + "'::date ORDER By B.price DESC Limit" + k;
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      } 
    }//end topKHighestRoomPriceForADateRange
    
    public static void topKHighestPriceBookingsForACustomer(DBProject esql){
