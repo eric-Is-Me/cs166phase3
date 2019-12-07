@@ -7,7 +7,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=$CLASSPATH:$PWD/pg73jdbc3.jar
 
 #Index tuning (NOTE:Might be wrong) 
-psql −h localhost −p $PGPORT $USER” DB” < ../sql/create_index.sql
+psql −h localhost −p $PGPORT $USER”_DB” < ../sql/create_index.sql
 
 # compile the java program
 javac DBProject.java
