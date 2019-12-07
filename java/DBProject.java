@@ -270,6 +270,11 @@ public class DBProject {
         try 
         {
           customerID = Integer.parseInt(in.readLine());
+          if (customerID < 0)
+          {
+			  System.out.print("Can't use negative numbers.");
+			  continue;
+		  }
           break;
         }
         catch (Exception e)
@@ -379,7 +384,7 @@ public class DBProject {
 
       try
       {
-        query = "INSERT INTO Customer VALUES (" + customerID + "," + firstName + "," + lastName + "," + addr + "," + phone + "," + dateOfBirth + "," + sex + ");";
+        query = "INSERT INTO Customer VALUES (" + customerID + "," + "'" + firstName + "', '" + lastName + "', '" + addr + "', " + phone + ", '" + dateOfBirth + "'::date, '" + sex + "')";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -390,17 +395,22 @@ public class DBProject {
 
    public static void addRoom(DBProject esql){
     // Given room details add the room in the DB
-      // Your code goes here.
-      // ...
-      // ...
-     
-     
+	int hotelID;
+	int roomNo;
+	String roomType;
+	String query;
+	
     while(true)
     {
-      System.out.print("Please input HotelID: ")
+      System.out.print("Please input HotelID: ");
       try
       {
         hotelID = Integer.parseInt(in.readLine());
+		if (hotelID < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}
         break;
       }
       catch (Exception e)
@@ -412,10 +422,15 @@ public class DBProject {
 
     while(true)
     {
-      System.out.printIn("Please input RoomNo: ")
+      System.out.println("Please input RoomNo: ");
       try
       {
         roomNo = Integer.parseInt(in.readLine());
+        if (roomNo < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}
         break;
       }
       catch (Exception e)
@@ -427,35 +442,51 @@ public class DBProject {
 
     while(true)
     {
-      System.out.println("Please input roomType: ")
+      System.out.println("Please input roomType: ");
       try
       {
         roomType = in.readLine();
-        if (roomType.length() <= 0 || firstName.length() > 10)
+        if (roomType.length() <= 0 || roomType.length() > 10)
         {
-          throw new RuntimeException("Your input is invalid!")
+          throw new RuntimeException("Your input is invalid! Name cannot be empty, and cannot exceed 8 characters");
         }
+        break;
       }
       catch (Exception e)
       {
         System.out.println("Invalid input! Your exception is: " + e.getMessage());
       }
     }
+    
+    try
+      {
+        query = "INSERT INTO Room VALUES ('" + hotelID + "', '" + roomNo + "', '" + roomType + "')";
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      }
    }//end addRoom
 
    public static void addMaintenanceCompany(DBProject esql){
-      // Given maintenance Company details add the maintenance company in the DB
-      int cmpID;
-      String name;
+	  int cmpID;
       String address;
       String isCertified;
-
+      String name;
+      String query;
+ 
       while (true)
       {
         System.out.print("Please input Company ID: ");
         try 
         {
-          customerID = Integer.parseInt(in.readLine());
+          cmpID = Integer.parseInt(in.readLine());
+		if (cmpID < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}
           break;
         }
         catch (Exception e)
@@ -464,14 +495,14 @@ public class DBProject {
           continue;
         }
       }
-
+    
       while (true)
       {
         System.out.print("Please input Company Name: ");
         try 
         {
           name = in.readLine();
-          if (firstName.length() <= 0 || firstName.length() > 30) 
+          if (name.length() <= 0 || name.length() > 30) 
           {
             throw new RuntimeException("Your input is invalid! Name cannot be empty, and cannot exceed 30 characters");
           }
@@ -483,7 +514,7 @@ public class DBProject {
           continue;
         }
       }
-
+     
       while (true)
       {
         System.out.print("Please input Company Address: ");
@@ -498,19 +529,22 @@ public class DBProject {
           continue;
         }
       }
-
+      
       while (true)
       {
         System.out.print("Is the company certified? Enter TRUE or FALSE: ");
         try
         {
           isCertified = in.readLine();
-          if (isCertified !== "TRUE" || isCertified !== "FALSE")
+          if (isCertified.equals("TRUE") || isCertified.equals("FALSE"))
           {
-            System.out.println("Answer must be either TRUE or FALSE");
-            continue;
+            break;
           }
-          break;
+          else
+          {
+	    	System.out.println("Answer must be either TRUE or FALSE");
+	        continue;
+          }
         }
         catch (Exception e)
         {
@@ -518,10 +552,10 @@ public class DBProject {
           continue;
         }
       }
-
+     
       try
       {
-        query = "INSERT INTO MaintenanceCompany VALUES (" + cmpID + ", '" name + "', '" + address + "', '" + isCertified + "');";
+        query = "INSERT INTO MaintenanceCompany VALUES (" + cmpID + ", '" + name + "', '" + address + "', '" + isCertified + "')";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -532,20 +566,21 @@ public class DBProject {
 
    public static void addRepair(DBProject esql){
     // Given repair details add repair in the DB
-      // Your code goes here.
-      // ...
-      // ...
-      int repairDate;
-      int managerID; 
-      int repairID; 
-      string query;  
+      int rID;
+    int hotelID; 
+    int roomNo;
+    int mCompany; 
+    String repairDate; 
+    String description;
+    String repairType; 
+    String query;
 
       while (true)
       {
-        System.out.print("Please input RepairID: ");
+        System.out.print("Please input Repair ID: ");
         try 
         {
-          repairID = Integer.parseInt(in.readLine());
+          rID = Integer.parseInt(in.readLine());
           break;
         }
         catch (Exception e)
@@ -557,10 +592,40 @@ public class DBProject {
 
       while (true)
       {
-        System.out.print("Please input Manager ID: ");
+        System.out.print("Please input Hotel ID: ");
         try 
         {
-          managerID = Integer.parseInt(in.readLine());
+          hotelID = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Room number: ");
+        try 
+        {
+          roomNo = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Company ID: ");
+        try 
+        {
+          mCompany = Integer.parseInt(in.readLine());
           break;
         }
         catch (Exception e)
@@ -575,7 +640,45 @@ public class DBProject {
         System.out.print("Please input Repair Date: ");
         try 
         {
-          repairDate = Integer.parseInt(in.readLine());
+          repairDate = in.readLine();
+          if (repairDate.length() <= 0 || repairDate.length() > 10) 
+          {
+            throw new RuntimeException("Your input is invalid! Date cannot be empty, and cannot exceed 10 characters");
+          }
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter Description: ");
+        try
+        {
+          description = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Enter Repair Type: ");
+        try 
+        {
+          repairType = in.readLine();
+          if (repairDate.length() <= 0 || repairDate.length() > 10) 
+          {
+            throw new RuntimeException("Your input is invalid! Name cannot be empty, and cannot exceed 8 characters");
+          }
           break;
         }
         catch (Exception e)
@@ -587,12 +690,7 @@ public class DBProject {
 
       try
       {
-        String query_reqID = "SELECT MAX(reqID) FROM Request";
-        Statement reqID_Statement = esql._connection.createStatement();
-        ResultSet reqID_ResultSet = reqID_Statement.execute(query_reqID);
-        reqID_ResultSet();
-        int reqID_Increment = reqID_ResultSet.getInt(1) + 1;
-        query = "INSERT INTO Request VALUES (" reqID_Increment + managerID + ", '" + repairID + "', '" + repairDate + "');";
+        query = "INSERT INTO Repair VALUES (" + rID + "," + hotelID + " , " + roomNo + " , '" + mCompany + "', '" + repairDate + "'::date , '" + description + "', '" + repairType + "')";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -610,14 +708,20 @@ public class DBProject {
       int roomNo;
       String bookingDate;
       int noOfPeople;
-      double price;
+      String price;
+      String query;
 
       while (true)
       {
         System.out.print("Please input Hotel ID: ");
         try 
         {
-          customerID = Integer.parseInt(in.readLine());
+          hotelID = Integer.parseInt(in.readLine());
+		if (hotelID < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}
           break;
         }
         catch (Exception e)
@@ -670,7 +774,70 @@ public class DBProject {
         System.out.print("Enter the Room Number: ");
         try 
         {
-          customerID = Integer.parseInt(in.readLine());
+          roomNo = Integer.parseInt(in.readLine());
+		if (roomNo < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}          
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("Enter the date of booking: ");
+        try 
+        {
+          bookingDate = in.readLine();
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("How many people are staying in the room? ");
+        try 
+        {
+          noOfPeople = Integer.parseInt(in.readLine());
+		if (noOfPeople < 0)
+		{
+			System.out.print("Can't use negative numbers.");
+			continue;
+		}         
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+      
+      while (true)
+      {
+        System.out.print("Enter the price of the room: ");
+        try
+        {
+          price = in.readLine();
+          int integerPlaces = price.indexOf('.');
+          int decPlaces = price.length() - integerPlaces - 1;
+          
+          if (decPlaces > 2)
+          {
+        	  System.out.print("Prices can only have up to 2 decimal places");
+        	  continue;
+          }
           break;
         }
         catch (Exception e)
@@ -682,7 +849,25 @@ public class DBProject {
 
       try
       {
-        query = "INSERT INTO Booking VALUES (" + bID + ", (SELECT customerID FROM Customer WHERE fName=" + "'firstName' AND lName='" + lastName +"'), '" + hotelID + "', '" + roomNo + "', '" + bookingDate + "', " + noOfPeople + ", " +  price +");";
+    	String query2 = "SELECT MAX(bID) FROM Booking";
+        Statement bID_Statement = esql._connection.createStatement();
+        ResultSet bID_ResultSet = bID_Statement.executeQuery(query2);
+        bID_ResultSet.next();
+        int bID_Increment = bID_ResultSet.getInt(1) + 1;
+    	String query3 = "SELECT customerID FROM Customer WHERE fName='" + firstName + "' AND lName='" + lastName + "'";
+        Statement name_Statement = esql._connection.createStatement();
+        ResultSet name_ResultSet = name_Statement.executeQuery(query3);
+        int cid = 0;
+        if (name_ResultSet.next())
+        {
+        	cid = name_ResultSet.getInt(1);
+        }
+        else
+        {
+        	System.out.print("User does not exist");
+        }
+        System.out.println(roomNo);
+        query = "INSERT INTO Booking VALUES (" + bID_Increment + ", " + cid + ", " + hotelID + ", " + roomNo + ", '" + bookingDate + "'::date, " + noOfPeople + ", " +  price + ")";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -693,92 +878,171 @@ public class DBProject {
 
    public static void assignHouseCleaningToRoom(DBProject esql){
     // Given Staff SSN, HotelID, roomNo Assign the staff to the room 
-      // Your code goes here.
-      // ...
-      // ...
 	    int staffID;
-    int hotelID;
-    int roomNo; 
+	    int hotelID;
+	    int roomNo; 
+	    int asgID; 
+	    String query; 
 
+
+	      while (true)
+	      {
+	        System.out.print("Enter the Staff SSN: ");
+	        try 
+	        {
+	          staffID = Integer.parseInt(in.readLine());
+				if (staffID < 0)
+				{
+					System.out.print("Can't use negative numbers.");
+					continue;
+				}	          
+	          break;
+	        }
+	        catch (Exception e)
+	        {
+	          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+	          continue;
+	        }
+	      }
+
+	      while (true)
+	      {
+	        System.out.print("Enter the Hotel ID: ");
+	        try 
+	        {
+	          hotelID = Integer.parseInt(in.readLine());
+				if (hotelID < 0)
+				{
+					System.out.print("Can't use negative numbers.");
+					continue;
+				}	          
+	          break;
+	        }
+	        catch (Exception e)
+	        {
+	          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+	          continue;
+	        }
+	      }
+
+	      while (true)
+	      {
+	        System.out.print("Enter the Room Number: ");
+	        try 
+	        {
+	          roomNo = Integer.parseInt(in.readLine());
+				if (roomNo < 0)
+				{
+					System.out.print("Can't use negative numbers.");
+					continue;
+				}	          
+	          break;
+	        }
+	        catch (Exception e)
+	        {
+	          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+	          continue;
+	        }
+	      }
+	      try
+	      { 
+	    	String query2 = "SELECT MAX(asgID) FROM Assigned";
+	        Statement asgID_Statement = esql._connection.createStatement();
+	        ResultSet asgID_ResultSet = asgID_Statement.executeQuery(query2);
+	        asgID_ResultSet.next();
+	        int asgID_Increment = asgID_ResultSet.getInt(1) + 1; 
+	        query = "INSERT INTO Assigned VALUES (" + asgID_Increment + ", " + staffID + ", " + hotelID + ", " + roomNo + ");";
+	        esql.executeQuery(query);
+	      }
+	      catch (Exception e)
+	      {
+	        System.err.println("Query failed: " + e.getMessage());
+	      }
+   }//end assignHouseCleaningToRoom
+   
+   public static void repairRequest(DBProject esql){
+    // Given a hotelID, Staff SSN, roomNo, repairID , date create a repair request in the DB
+	  int repairDate;
+      int managerID; 
+      int repairID; 
+      String query;  
+
+      while (true)
+      {
+        System.out.print("Please input RepairID: ");
+        try 
+        {
+          repairID = Integer.parseInt(in.readLine());
+			if (repairID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Manager ID: ");
+        try 
+        {
+          managerID = Integer.parseInt(in.readLine());
+			if (managerID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      while (true)
+      {
+        System.out.print("Please input Repair Date: ");
+        try 
+        {
+          repairDate = Integer.parseInt(in.readLine());
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
 
       try
       {
-        String query = "SELECT MAX(asgID) FROM Assigned";
-        Statement asgID_Statement = esql._connection.createStatement();
-        ResultSet asgID_ResultSet = asgID_Statement.execute(query);
-        asgID_ResultSet();
-        int asgID_Increment = asgID_ResultSet.getInt(1) + 1; 
-      }
-
-      while (true)
-      {
-        System.out.print("Enter the Staff SSN: ");
-        try 
-        {
-          staffID = Integer.parseInt(in.readLine());
-          break;
-        }
-        catch (Exception e)
-        {
-          System.out.println("Invalid input! Your exception is: " + e.getMessage());
-          continue;
-        }
-      }
-
-      while (true)
-      {
-        System.out.print("Enter the Hotel ID: ");
-        try 
-        {
-          hotelID = Integer.parseInt(in.readLine());
-          break;
-        }
-        catch (Exception e)
-        {
-          System.out.println("Invalid input! Your exception is: " + e.getMessage());
-          continue;
-        }
-      }
-
-      while (true)
-      {
-        System.out.print("Enter the Room Number: ");
-        try 
-        {
-          roomNo = Integer.parseInt(in.readLine());
-          break;
-        }
-        catch (Exception e)
-        {
-          System.out.println("Invalid input! Your exception is: " + e.getMessage());
-          continue;
-        }
-      }
-      try
-      {
-        query = "INSERT INTO Assigned VALUES (" + asgID + ", '" staffID + "', '" + hotelID + "', '" + roomNo + "');";
+        String query_reqID = "SELECT MAX(reqID) FROM Request";
+        Statement reqID_Statement = esql._connection.createStatement();
+        ResultSet reqID_ResultSet = reqID_Statement.executeQuery(query_reqID);
+        reqID_ResultSet.next();
+        int reqID_Increment = reqID_ResultSet.getInt(1) + 1;
+        query = "INSERT INTO Request VALUES (" + reqID_Increment + managerID + ", '" + repairID + "', '" + repairDate + "');";
         esql.executeQuery(query);
       }
       catch (Exception e)
       {
         System.err.println("Query failed: " + e.getMessage());
       }
-   }//end assignHouseCleaningToRoom
-   
-   public static void repairRequest(DBProject esql){
-    // Given a hotelID, Staff SSN, roomNo, repairID , date create a repair request in the DB
    }//end repairRequest
    
    public static void numberOfAvailableRooms(DBProject esql){
     // Given a hotelID, get the count of rooms available 
       // Your code goes here.
-      // ...
-      // ...
-   }//end numberOfAvailableRooms
-   
-   public static void numberOfBookedRooms(DBProject esql){
-    // Given a hotelID, get the count of rooms booked
-      int hotelID;
+	  int hotelID;
+      String query;
 
       while (true)
       {
@@ -786,6 +1050,11 @@ public class DBProject {
         try 
         {
           hotelID = Integer.parseInt(in.readLine());
+			if (hotelID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -797,7 +1066,43 @@ public class DBProject {
 
       try
       {
-        query = "SELECT COUNT(*) FROM Booking B, Room R WHERE B.hotelID = R.hotelID AND R.roomNo IN (SELECT R.roomNo FROM Booking B WHERE R.roomNo = B.roomNo) AND R.hotelID=" + hotelID;
+        query = "SELECT COUNT(*) FROM Room, Booking WHERE Room.hotelID='" + hotelID + "' AND Booking.hotelID='" + hotelID + "' AND Room.roomNo NOT IN (SELECT Room.roomNo FROM Booking WHERE Room.roomNo=Booking.roomNo)"; 
+        esql.executeQuery(query);
+      }
+      catch (Exception e)
+      {
+        System.err.println("Query failed: " + e.getMessage());
+      } 
+   }//end numberOfAvailableRooms
+   
+   public static void numberOfBookedRooms(DBProject esql){
+    // Given a hotelID, get the count of rooms booked
+      int hotelID;
+      String query;
+
+      while (true)
+      {
+        System.out.print("Please input Hotel ID: ");
+        try 
+        {
+          hotelID = Integer.parseInt(in.readLine());
+			if (hotelID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
+          break;
+        }
+        catch (Exception e)
+        {
+          System.out.println("Invalid input! Your exception is: " + e.getMessage());
+          continue;
+        }
+      }
+
+      try
+      {
+        query = "SELECT COUNT(*) FROM Booking B WHERE B.hotelID = " + hotelID;
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -809,7 +1114,8 @@ public class DBProject {
    public static void listHotelRoomBookingsForAWeek(DBProject esql){
     // Given a hotelID, date - list all the rooms available for a week(including the input date) 
       int hotelID;
-      String bookingDate
+      String bookingDate;
+      String query;
 
       while (true)
       {
@@ -817,6 +1123,11 @@ public class DBProject {
         try 
         {
           hotelID = Integer.parseInt(in.readLine());
+			if (hotelID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -843,7 +1154,7 @@ public class DBProject {
 
       try
       {
-        query = "SELECT roomNo FROM Booking WHERE Booking.hotelID=" + hotelID + " AND '" + bookingDate + "'::date  BETWEEN '" + bookingDate + "'::date AND '" + bookingDate + "'::date + interval '1 week'";
+        query = "SELECT Booking.roomNo FROM Booking WHERE (Booking.hotelID=" + hotelID + " AND Booking.bookingDate BETWEEN '" + bookingDate + "'::date AND '" + bookingDate + "'::date + interval '1 week') GROUP BY Booking.roomNo";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -854,10 +1165,8 @@ public class DBProject {
    
    public static void topKHighestRoomPriceForADateRange(DBProject esql){
     // List Top K Rooms with the highest price for a given date range
-      // Your code goes here.
-      // ...
-      // ...
-	      String date1;
+	  String query;
+	  String date1;
       String date2;
       int k; 
 
@@ -867,6 +1176,11 @@ public class DBProject {
         try 
         {
           k = Integer.parseInt(in.readLine());
+			if (k < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -906,11 +1220,9 @@ public class DBProject {
         }
       }
 
-
-
        try
       {
-        query = "SELECT price FROM Booking B, Room R WHERE R.roomNo = B.roomNo AND '" + date1 + "'::date AND '" + date2 + "'::date ORDER By B.price DESC Limit" + k;
+        query = "SELECT * FROM Booking B, Room R WHERE R.roomNo=B.roomNo AND R.hotelID=B.hotelID AND B.bookingDate BETWEEN '" + date1 + "'::date AND '" + date2 + "'::date ORDER By B.price DESC Limit " + k;
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -924,6 +1236,7 @@ public class DBProject {
       String firstName;
       String lastName;
       int k;
+      String query;
 
       while (true)
       {
@@ -961,6 +1274,11 @@ public class DBProject {
         try
         {
           k = Integer.parseInt(in.readLine());
+			if (k < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -972,7 +1290,7 @@ public class DBProject {
 
       try
       {
-        query = "SELECT price FROM (SELECT price FROM Booking WHERE Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName +"') ORDER BY price DESC) LIMIT "+ k;
+        query = "SELECT b.price FROM Booking AS b WHERE b.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName +"') ORDER BY b.price DESC LIMIT "+ k;
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -988,6 +1306,7 @@ public class DBProject {
 	  String lastName;
 	  String date1;
 	  String date2;
+	  String query;
 
       while (true)
       {
@@ -1025,6 +1344,11 @@ public class DBProject {
         try
         {
           hotelID = Integer.parseInt(in.readLine());
+			if (hotelID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -1066,7 +1390,7 @@ public class DBProject {
       
       try
       {
-        query = "SELECT SUM(price) FROM Booking WHERE Booking.hotelID='" + hotelID + "' AND Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName + "') AND Booking.date BETWEEN '" + date1 + "'::date AND '" + date2 + "'::date";
+        query = "SELECT SUM(price) FROM Booking WHERE Booking.hotelID='" + hotelID + "' AND Booking.customer=(SELECT customerID FROM Customer WHERE Customer.fName='" + firstName + "' AND Customer.lName='" + lastName + "') AND Booking.bookingDate BETWEEN '" + date1 + "'::date AND '" + date2 + "'::date";
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -1078,6 +1402,7 @@ public class DBProject {
    public static void listRepairsMade(DBProject esql){
     // Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo
 	  String mName;
+	  String query;
 
       while (true)
       {
@@ -1107,9 +1432,7 @@ public class DBProject {
    
    public static void topKMaintenanceCompany(DBProject esql){
     // List Top K Maintenance Company Names based on total repair count (descending order)
-      // Your code goes here.
-      // ...
-      // ...
+	String query;
 	int k; 
 
        while (true)
@@ -1118,6 +1441,11 @@ public class DBProject {
         try 
         {
           k = Integer.parseInt(in.readLine());
+			if (k < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -1129,7 +1457,7 @@ public class DBProject {
 
       try
       {
-        query = "SELECT Name FROM Maintenance M, Repair R WHERE M.cmpID = R.mCompany ORDER BY COUNT(rID) DESC LIMIT"+ k;
+        query = "SELECT M.name FROM maintenanceCompany M, Repair R WHERE M.cmpID = R.mCompany GROUP BY M.name ORDER BY COUNT(*) DESC LIMIT "+ k;
         esql.executeQuery(query);
       }
       catch (Exception e)
@@ -1142,13 +1470,19 @@ public class DBProject {
     // Given a hotelID, roomNo, get the count of repairs per year
 	  int hotelID;
 	  int roomNo;
+	  String query;
 
       while (true)
       {
         System.out.print("Please input Hotel ID: ");
         try 
         {
-          hotelID = in.readLine();
+          hotelID = Integer.parseInt(in.readLine());
+			if (hotelID < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -1163,7 +1497,12 @@ public class DBProject {
         System.out.print("Please input Room Number: ");
         try 
         {
-          roomNo = in.readLine();
+          roomNo = Integer.parseInt(in.readLine());
+			if (roomNo < 0)
+			{
+				System.out.print("Can't use negative numbers.");
+				continue;
+			}          
           break;
         }
         catch (Exception e)
@@ -1175,7 +1514,7 @@ public class DBProject {
       
       try
       {
-        query = "SELECT DATE_PART('year', repairDate) AS \"Year\", COUNT(*) AS \"Number of Repairs\" FROM Repair WHERE Repair.hotelID='" + hotelID + "' AND Repair.roomNo='" + roomNo + "' GROUP BY DATE_PART('year', repairDate)";
+        query = "SELECT DATE_PART('year', repairDate), COUNT(*) FROM Repair WHERE Repair.hotelID='" + hotelID + "' AND Repair.roomNo='" + roomNo + "' GROUP BY DATE_PART('year', repairDate)";
         esql.executeQuery(query);
       }
       catch (Exception e)
