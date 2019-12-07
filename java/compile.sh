@@ -6,6 +6,9 @@ export PATH=$JAVA_HOME/bin:$PATH
 # Export classpath with the postgressql driver
 export CLASSPATH=$CLASSPATH:$PWD/pg73jdbc3.jar
 
+#Index tuning (NOTE:Might be wrong) 
+psql −h localhost −p $PGPORT $USER” DB” < ../sql/create_index.sql
+
 # compile the java program
 javac DBProject.java
 
